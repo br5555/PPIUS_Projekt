@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch> 
+<arg name="file_name" default="/home/branko/catkin_ws/src/ppius/src/my_sound.wav"/>
+<node name="decompress_node" pkg="ppius" type="decompress_node"/>
+
+<node name= "compress_node" pkg= "ppius" type= "compress_node" /> 
+<node name= "wav_reader" pkg= "ppius" type= "wav_reader" args="$(arg file_name)" /> 
+</launch> 
