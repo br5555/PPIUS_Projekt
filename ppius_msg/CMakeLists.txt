@@ -28,6 +28,7 @@ add_message_files(
   FILES
   ppius.msg
   compress.msg
+  sound.msg
 )
 
  generate_messages(

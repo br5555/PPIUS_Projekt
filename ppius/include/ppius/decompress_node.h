@@ -15,7 +15,7 @@
 #include <std_msgs/Float32.h>
 #include "filter_library.h"
 #include <ppius_msg/compress.h> 
-
+#include <ppius_msg/sound.h> 
 
 
 class DecompressNode
@@ -26,9 +26,9 @@ private:
     ros::NodeHandle nh_;
 
     ros::Subscriber compress_sub_;
-    
+    ros::Publisher sound_pub_;
     void initializeSubscriber();
-
+    void initializePublisher();
     
     void compressSubscriberCallback(const ppius_msg::compress& compressed_sound);
     

@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <launch> 
 <arg name="file_name" default="/home/branko/catkin_ws/src/ppius/src/my_sound.wav"/>
-<node name="decompress_node" pkg="ppius" type="decompress_node"/>
+<node name="decompress_node" pkg="ppius" type="decompress_node" output="screen"/>
 
-<node name= "compress_node" pkg= "ppius" type= "compress_node" /> 
-<node name= "wav_reader" pkg= "ppius" type= "wav_reader" args="$(arg file_name)" /> 
+<node name= "compress_node" pkg= "ppius" type= "compress_node" output="screen"/> 
+<!-- node name= "wav_reader" pkg= "ppius" type= "wav_reader" args="$(arg file_name)" /--> 
+<node pkg="ppius" type="play_sound.py" name="play_sound"  output="screen"/>
+<node pkg="ppius" type="read_wav.py" name="read_wav"  output="screen"/>
 </launch> 

@@ -27,7 +27,7 @@ int WavReader::getFileSize(FILE* inFile)
 }
 
 void WavReader::readWavFile(const char* filePath){
-
+    ros::Rate naptime(15.0);
     wav_hdr wavHeader;
     int headerSize = sizeof(wav_hdr), filelength = 0;
     ppius_msg::ppius sound_message;
@@ -51,15 +51,23 @@ void WavReader::readWavFile(const char* filePath){
         uint64_t numSamples = wavHeader.ChunkSize / bytesPerSample; //How many samples are in the wav file?
         static const uint16_t BUFFER_SIZE = 4096;
         int8_t* buffer = new int8_t[BUFFER_SIZE];
+        //int my_count = 0;
         while ((bytesRead = fread(buffer, sizeof buffer[0], BUFFER_SIZE / (sizeof buffer[0]), wavFile)) > 0)
         {
-            
+           //if(my_count == 100){
             sound_message.dbl_vec.resize(bytesRead);
-            for(int i = 0; i< bytesRead; i++){
-                sound_message.dbl_vec[i] = buffer[i];
+            for(int i = 0; i< bytesRead; i=i+2){
+            //for(int i = 0; i< 50; i++){
+                int pom = ((((int)buffer[i+1])<<8) | ((int)buffer[i]));
+                sound_message.dbl_vec[i] =(float)(pom)/(float)32768;
+                
 
             }
             sound_pub_.publish(sound_message);
+            naptime.sleep();
+            /*break;
+            }
+            my_count++;*/
         }
         delete [] buffer;
         buffer = nullptr;

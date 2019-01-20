@@ -26,27 +26,56 @@ void CompressNode::initializePublisher()
 
 void CompressNode::soundSubscriberCallback(const ppius_msg::ppius& sound_message){
     
-
+    //std::cout << "size sound " << sound_message.dbl_vec.size() << std::endl; 
 	sig.s_size= sound_message.dbl_vec.size() ;
 	sig.s = new double[sound_message.dbl_vec.size()];
+	//std::cout << "Signal prije" << std::endl;
 	for(int i = 0; i< sound_message.dbl_vec.size(); i ++){
         sig.s[i]=sound_message.dbl_vec[i];
+        //std::cout << sig.s[i] << "  ";
     }
+    //std::cout <<  std::endl;
+    //std::cout <<  std::endl;
 	
-    tmp=dwt(sig.s,hp_,sig.s_size);
-    coef=dwt(tmp.A,hp_,tmp.c_size);
+    coef=dwt(sig.s,hp_,sig.s_size);
+    //coef=dwt(tmp.A,hp_,tmp.c_size);
     
     ppius_msg::compress compress_msg;
     
-    compress_msg.A.resize(sizeof( coef.A) / sizeof( *coef.A));
-    compress_msg.D.resize(sizeof( coef.D) / sizeof( *coef.D));
+    compress_msg.A.resize(coef.c_size);
+    compress_msg.D.resize(coef.c_size);
     compress_msg.c_size = coef.c_size;
-    for(int i = 0; i< compress_msg.A.size(); i ++){
+    /*//std::cout << "Polje A " << compress_msg.A.size() << "Polje D " <<compress_msg.D.size() << std::endl;
+    //std::cout << "size na drugi nacin " << coef.c_size << std::endl;*/
+    //std::cout << "compress_msg.A " << std::endl;
+    for(int i = 0; i< coef.c_size; i ++){
         compress_msg.A[i] = coef.A[i];
+       //std::cout << coef.A[i] << "  ";
     }
-    for(int i = 0; i< compress_msg.D.size(); i ++){
+    //std::cout << std::endl;
+    //std::cout << "compress_msg.D " << std::endl;
+    for(int i = 0; i< coef.c_size; i ++){
         compress_msg.D[i] = coef.D[i];
+        //std::cout << coef.D[i] << "  ";
     }
+    //std::cout << std::endl;
+    /*
+    compress_msg.A_tmp.resize(tmp.c_size);
+    compress_msg.D_tmp.resize(tmp.c_size);
+    compress_msg.c_size_tmp = tmp.c_size;
+    
+    for(int i = 0; i< coef.c_size; i ++){
+        compress_msg.A_tmp[i] = tmp.A[i];
+        
+    }
+    for(int i = 0; i< coef.c_size; i ++){
+        compress_msg.D_tmp[i] = tmp.D[i];
+    }
+    */
+    //std::cout << std::endl;
+    //std::cout << std::endl;
+    //std::cout << std::endl;
+    //std::cout << std::endl;
     
     compress_pub_.publish(compress_msg);
 
@@ -108,7 +137,7 @@ struct filter CompressNode::filter_definition(char *c) {
     for (n = 0; n < ff.f_size; n++)
     {
         fscanf (fp, "%lf;%lf;%lf;%lf;\n", ff.f00+n, ff.f01+n, ff.f10+n, ff.f11+n);
-        //printf ("%lf %lf %lf %lf\n", *(ff.f00+n),*(ff.f01+n),*(ff.f10+n),*(ff.f11+n));
+        printf ("%22.20f %22.20f %22.20f %22.20f\n", *(ff.f00+n),*(ff.f01+n),*(ff.f10+n),*(ff.f11+n));
     }
     fclose(fp);
 
