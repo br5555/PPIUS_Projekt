@@ -99,15 +99,7 @@ void CompressNode::p_conv_f32(const double *x, const double *h, double *r, int n
 
 
 
-/**
- * Creates structure of filter from given file name
- *  structure is pholiphase representation of decomposition or reconstruction filter
- *
- * @param c     name of txt file containing definition of filter
- *              contains 4 columns and r rows, wich are defined in first line of file.
- *
- * @return      structure of filter
- */
+
 
 
 struct filter CompressNode::filter_definition(char *c) {

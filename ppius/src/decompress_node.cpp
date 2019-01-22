@@ -76,13 +76,7 @@ void DecompressNode::compressSubscriberCallback(const ppius_msg::compress& compr
 
 }
 
-/**
- * IDWT                 computers 1 level idwt
- * @param c             coeffs
- * @param fp            structure of filter
- * @param n             length of signal
- * @return              pointer to reconstructed signal
- */
+
 struct signali DecompressNode::idwt(struct koeficjenti c, struct filter fp) {
     struct signali s;
     double * r;
@@ -136,15 +130,7 @@ void DecompressNode::p_conv_f32(const double *x, const double *h, double *r, int
 
 
 
-/**
- * Creates structure of filter from given file name
- *  structure is pholiphase representation of decomposition or reconstruction filter
- *
- * @param c     name of txt file containing definition of filter
- *              contains 4 columns and r rows, wich are defined in first line of file.
- *
- * @return      structure of filter
- */
+
 
 
 struct filter DecompressNode::filter_definition(char *c) {
